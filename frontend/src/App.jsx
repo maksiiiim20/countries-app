@@ -12,7 +12,6 @@ function App() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [search, setSearch] = useState("");
 
-  // Pobiera wyłącznie dane, które są już zapisane w PostgreSQL.
   const loadCountries = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -40,12 +39,12 @@ function App() {
     }
   }, []);
 
-  // Uruchamia się tylko przy wejściu na stronę.
+  
   useEffect(() => {
     loadCountries();
   }, [loadCountries]);
 
-  // Synchronizacja z zewnętrznym API następuje wyłącznie po kliknięciu.
+  
   async function handleRefresh() {
     setRefreshing(true);
     setError("");
@@ -72,7 +71,7 @@ function App() {
         );
       }
 
-      // Po synchronizacji ponownie odczytujemy dane z PostgreSQL.
+     
       await loadCountries();
     } catch (err) {
       setError(err.message || "Wystąpił błąd podczas aktualizacji.");
