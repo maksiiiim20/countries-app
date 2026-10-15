@@ -77,17 +77,17 @@ function normalizeCode(code) {
 }
 
 function getCountryObjects(body) {
-    // Obsługa aktualnego formatu odpowiedzi API.
+    // API response handling
     if (Array.isArray(body?.data?.objects)) {
         return body.data.objects;
     }
 
-    // Obsługa odpowiedzi, w której data jest bezpośrednio tablicą.
+    // table respons handling
     if (Array.isArray(body?.data)) {
         return body.data;
     }
 
-    // Obsługa odpowiedzi zawierającej bezpośrednio pojedynczy obiekt.
+    // single object repsonse handling
     if (body?.data && typeof body.data === "object") {
         return [body.data];
     }
@@ -107,7 +107,7 @@ async function fetchCountryByCode(code) {
     const body = await fetchWithTimeout(url.toString());
     const countries = getCountryObjects(body);
 
-    // Nie zwracamy bezwarunkowo pierwszego elementu.
+    //
     const country = countries.find(
         (item) =>
         item?.codes?.alpha_3?.toUpperCase() === normalizedCode
