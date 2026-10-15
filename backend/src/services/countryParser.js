@@ -1,17 +1,7 @@
 
-// src/services/countryParser.js
-
-/**
- * Sprawdza, czy wartość jest zwykłym obiektem.
- */
 function isObject(value) {
     return value !== null && typeof value === "object" && !Array.isArray(value);
 }
-
-/**
- * Zwraca tekst bez zbędnych spacji lub null,
- * jeśli wartość nie jest prawidłowym tekstem.
- */
 function cleanString(value) {
     if (typeof value !== "string") {
         return null;
@@ -21,9 +11,6 @@ function cleanString(value) {
     return cleaned.length > 0 ? cleaned : null;
 }
 
-/**
- * Normalizuje kod kraju do wielkich liter.
- */
 function normalizeCode(value, length) {
     const code = cleanString(value)?.toUpperCase();
 
@@ -34,10 +21,8 @@ function normalizeCode(value, length) {
     return code;
 }
 
-/**
- * Odczytuje nazwy stolic z formatu REST Countries API v5.
- * API może zwrócić tablicę obiektów albo tablicę tekstów.
- */
+// receiving capitals from API. object/tekst array
+
 function parseCapitals(value) {
     if (!Array.isArray(value)) {
         return [];
@@ -62,10 +47,6 @@ function parseCapitals(value) {
     ];
 }
 
-/**
- * Normalizuje języki do obiektu JSON.
- * Obsługuje tablicę obiektów lub obiekt klucz-wartość.
- */
 function parseLanguages(value) {
     if (Array.isArray(value)) {
         const languages = {};
@@ -110,9 +91,6 @@ function parseLanguages(value) {
     return {};
 }
 
-/**
- * Normalizuje waluty do obiektu JSON.
- */
 function parseCurrencies(value) {
     if (!isObject(value)) {
         return {};
@@ -147,9 +125,7 @@ function parseCurrencies(value) {
     return currencies;
 }
 
-/**
- * Normalizuje populację do liczby całkowitej.
- */
+
 function parsePopulation(value) {
     if (
         typeof value !== "number" ||
@@ -162,9 +138,6 @@ function parsePopulation(value) {
     return value;
 }
 
-/**
- * Normalizuje powierzchnię kraju.
- */
 function parseArea(value) {
     if (
         typeof value !== "number" ||
@@ -177,9 +150,6 @@ function parseArea(value) {
     return value;
 }
 
-/**
- * Odczytuje adres flagi, jeśli API go udostępnia.
- */
 function parseFlagUrl(flag) {
     if (!isObject(flag)) {
         return null;
@@ -207,13 +177,8 @@ function parseFlagUrl(flag) {
     return null;
 }
 
-/**
- * Parsuje i waliduje pojedynczy kraj z REST Countries API v5.
- *
- * Zwracany obiekt odpowiada kolumnom tabeli countries:
- * cca3, cca2, name, official_name, capital, region,
- * subregion, population, area, languages, currencies, flag_url.
- */
+// parsing and validating a single country to db standards
+
 function parseCountry(raw) {
     if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
         throw new Error("Dane kraju muszą być obiektem.");
